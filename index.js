@@ -1,12 +1,19 @@
 /* eslint-disable max-classes-per-file */
-import localStorage from './modules/localStorage'
-import BookObject from './modules/bookClass'
-import CreateBookElement from './modules/createElement';
+import localStorage from './modules/localStorage.js'
+import BookObject from './modules/bookClass.js'
+import CreateBookElement from './modules/createElement.js';
+import { DateTime } from './node_modules/luxon/build/es6/luxon.js';
+
+const dt = DateTime.now();
+
+document.getElementById('date-time').innerHTML = dt.toLocaleString(DateTime.DATETIME_MED);
+
 
 
 const btn = document.querySelector('#btn');
-const list = document.querySelector('.list');
 const form = document.querySelector('form');
+const storage = window.localStorage;
+const list = document.querySelector('.list');
 
 
 
@@ -26,8 +33,20 @@ btn.addEventListener('click', (event) => {
             alert('Book already exists please add a new one');
         }
     }
-    if (status) {
-        ClassLocalStorage.addBooks(bookCard);
+    if(title.value === "" && author.value !== ""){
+        status=false;
+        alert("Please input the title!");
+    }
+    if (author.value === "" && title.value !== ""){
+        status=false;
+        alert("Please input author name");
+    }
+    if (author.value === "" && title.value === ""){
+        status = false;
+        alert("Please input the required fields!");
+    }
+    if (status && author.value !== "" && author.value !== "") {
+        localStorage.addBooks(bookCard);
         const bookContainer = document.createElement('div');
         bookContainer.className = 'books';
         bookContainer.innerHTML = `<h2 id="title-name">${bookCard.title}</h2><p id="author-name">${bookCard.author}</p> <button class="remove-btn">Remove</button>`;
@@ -45,7 +64,7 @@ removeBtn.addEventListener('click', (event) => {
     const author = event.target.parentElement.firstElementChild.nextElementSibling.textContent;
     const books = localStorage.getBooks();
     const filtered = books.filter((book) => book.title !== title || book.author !== author);
-    localStorage.setItem('booksData', JSON.stringify(filtered));
+    storage.setItem('booksData', JSON.stringify(filtered));
 });
 
 // Adding Navigation

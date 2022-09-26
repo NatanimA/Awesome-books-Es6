@@ -1,4 +1,6 @@
-import localStorage from './localStorage'
+import localStorage from './localStorage.js'
+
+const list = document.querySelector('.list');
 
 export default class CreateBookElement{
     static createBookElement = () => {

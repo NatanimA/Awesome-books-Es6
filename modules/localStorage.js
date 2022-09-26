@@ -1,5 +1,5 @@
 export default class ClassLocalStorage {
-    static storageAvailable(type) {
+    static storageAvailable = (type) => {
         let storage;
         try {
             storage = window[type];
@@ -20,7 +20,7 @@ export default class ClassLocalStorage {
         }
     }
 
-    static getBooks() {
+    static getBooks = () => {
         let book;
         if (this.storageAvailable('localStorage')) {
             if (localStorage.getItem('booksData') == null) {
@@ -32,7 +32,7 @@ export default class ClassLocalStorage {
         return book;
     }
 
-    static addBooks(book) {
+    static addBooks= (book) => {
         const booksList = this.getBooks();
         booksList.push(book);
         localStorage.setItem('booksData', JSON.stringify(booksList));
